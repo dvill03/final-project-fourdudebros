@@ -1,0 +1,16 @@
+Created by Matthew Coyne
+
+Project Dependancies: 
+    Database:
+        PostgreSQL 
+        Python3
+        psycopg2
+    GUI:
+        Forthcoming. 
+        
+
+For now, all Python scripts should be edited to fit the local environment.  
+Until we can get a working shared environment, you'll have to set up the PostgreSQL 
+database on your local machine if you want to test this. 
+    
+This file will be updated with pertinent information as it develops and time allows. 
