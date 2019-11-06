@@ -1,59 +1,165 @@
-{% extends 'base.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Sarcix</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="{% static '/js/jquery-3.4.1.min.js' %}"></script>
+    <script src="{% static '/styles/bootstrap4/bootstrap.min.js' %}"></script>
+</head>
+<body>
 
-{% block content %}
-  {% load static %}
-  {% static "images" as baseUrl %}
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">Sarcix</a>
+        </div>
+        <ul class="nav navbar-nav">
+            <li><a href="/">Home</a></li>
+            <li><a href="/run">Run</a></li>
+            <li><a href="reports">Reports</a></li>
+            <li><a href="/analysis">Analysis</a></li>
+            <li><a href="compare">Compare</a></li>
+            <li><a href="prepare">Prepare</a></li>
+            <li><a href="setup">Setup</a></li>
+            <li class="active"><a href="help">Help</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li><a href="accounts/register"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+            <li><a href="accounts/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+        </ul>
+    </div>
+</nav>
 
-  	<!-- Home -->
-  	<div class="home">
-  	  <div class="background_image" style="background-image:url(static/images/background.jpg)"></div>
-  		  <div class="container">
-  			  <div class="row">
-  				  <div class="col">
-            <table class="table">
+<div class="container">
+    <p>Recent Runs</p>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Run</th>
+                <th>Curriculum</th>
+                <th>Outcomes</th>
+                <th>Quick Links</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>05-10-2019</td>
+                <td>Run_name_1</td>
+                <td>Curr_17-18</td>
+                <td>USMLE</td>
+                <td>
+                    <a href="#" class="btn btn-info btn-sm" role="button">Reports</a>
+                    <a href="#" class="btn btn-info btn-sm" role="button">Analysis</a>
+                </td>
+            </tr>
+            <tr>
+                <td>05-10-2019</td>
+                <td>Run_name_2</td>
+                <td>Test_Curr</td>
+                <td>USMLE</td>
+                <td>
+                    <a href="#" class="btn btn-info btn-sm" role="button">Reports</a>
+                    <a href="#" class="btn btn-info btn-sm" role="button">Analysis</a>
+                </td>
+            </tr>
+            <tr>
+                <td>05-07-2019</td>
+                <td>Run_name_3</td>
+                <td>Curr_18-19</td>
+                <td>School ABOs</td>
+                <td>
+                    <a href="#" class="btn btn-info btn-sm" role="button">Reports</a>
+                    <a href="#" class="btn btn-info btn-sm" role="button">Analysis</a>
+                </td>
+            </tr>
+            <tr>
+                <td>05-07-2019</td>
+                <td>Run_name_3</td>
+                <td>Curr_17-18</td>
+                <td>USMLE</td>
+                <td>
+                    <a href="#" class="btn btn-info btn-sm" role="button">Reports</a>
+                    <a href="#" class="btn btn-info btn-sm" role="button">Analysis</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="container">
+    <div class="row">
+
+        <div class="col-xs-6">
+            <p>Recent Curriculum Prep (click to edit)</p>
+            <table class="table table-bordered">
                 <thead>
-                  <tr>
-                    <th scope="col">Date</th>
-                    <th scope="col">Run</th>
-                    <th scope="col">Curriculum</th>
-                    <th scope="col">Outcomes</th>
-                    <th scope="col">Quick Links</th>
-                  </tr>
+                    <tr>
+                        <th>Date</th>
+                        <th>Curriculum Name</th>
+                    </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <th scope="row">GetDate</th>
-                    <td>GetDate</td>
-                    <td>GetDate</td>
-                    <td>GetDate</td>
-                    <td>Report Analysis</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">GetDate</th>
-                    <td>GetDate</td>
-                    <td>GetDate</td>
-                    <td>GetDate</td>
-                    <td>Report Analysis</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">GetDate</th>
-                    <td>GetDate</td>
-                    <td>GetDate</td>
-                    <td>GetDate</td>
-                    <td>Report Analysis</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">GetDate</th>
-                    <td>GetDate</td>
-                    <td>GetDate</td>
-                    <td>GetDate</td>
-                    <td>Report Analysis</td>
-                  </tr>
+                    <tr>
+                        <td>04-10-2019</td>
+                        <td>Curr_18-19_v1</td>
+                    </tr>
+                    <tr>
+                        <td>02-19-2019</td>
+                        <td>Test_Curr_MedChem</td>
+                    </tr>
+                    <tr>
+                        <td>02-11-2019</td>
+                        <td>18-19_mod2_more</td>
+                    </tr>
+                    <tr>
+                        <td>02-10-2019</td>
+                        <td>18-19_mod1_test</td>
+                    </tr>
                 </tbody>
-              </table>
-  					</div>
-  				</div>
-  			</div>
-  	</div>
+            </table>
+        </div>
 
-{% endblock %}
+        <div class="col-xs-6">
+            <p>Recent Outcomes Prep (click to edit)</p>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Outcomes Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>04-10-2019</td>
+                        <td>Curr_18-19</td>
+                    </tr>
+                    <tr>
+                        <td>02-19-2019</td>
+                        <td>Test_Curr</td>
+                    </tr>
+                    <tr>
+                        <td>02-11-2019</td>
+                        <td>18-19_mod2</td>
+                    </tr>
+                    <tr>
+                        <td>02-10-2019</td>
+                        <td>School ABOs_draft</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+<a href="#" class="btn btn-info btn-sm" role="button">Contact Mapradish</a>
+<a href="#" class="btn btn-info btn-sm" role="button">Site Editor</a>
+<a href="#" class="btn btn-info btn-sm" role="button">Connect to Search</a>
+<a href="#" class="btn btn-info btn-sm" role="button">Contact Colleagues</a>
+<a href="#" class="btn btn-info btn-sm" role="button">Read Outcomes</a>
+</body>
+</html>
