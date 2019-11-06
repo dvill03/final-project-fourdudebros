@@ -3,7 +3,6 @@ var margin = {top: 30, right: 30, bottom: 30, left: 30},
   width = 450 - margin.left - margin.right,
   height = 450 - margin.top - margin.bottom;
 
-console.log("hello world");
 // append the svg object to the body of the page
 var svg = d3.select("#my_dataviz")
 .append("svg")
@@ -26,7 +25,7 @@ svg.append("g")
   .attr("transform", "translate(0," + height + ")")
   .call(d3.axisBottom(x))
 
-// Build X scales and axis:
+// Build Y scales and axis:
 var y = d3.scaleBand()
   .range([ height, 0 ])
   .domain(myVars)
@@ -40,7 +39,7 @@ var myColor = d3.scaleLinear()
   .domain([1,100])
 
 //Read the data
-d3.csv("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/heatmap_data.csv", function(data) {
+d3.csv("./test_data.csv", function(data) {
 
   svg.selectAll()
       .data(data, function(d) {return d.group+':'+d.variable;})
