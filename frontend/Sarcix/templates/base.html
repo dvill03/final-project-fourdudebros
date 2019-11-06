@@ -1,49 +1,53 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <meta name="description" content="Sarcix template project">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="{% static 'styles/bootstrap4/bootstrap.min.css' %}">
-  </head>
-  <body bgcolor="green">
+<head>
+<meta charset="utf-8">
+<meta name="description" content="Sarcix template project">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="{% static 'styles/bootstrap4/bootstrap.min.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'styles/main_styles.css' %}">
+</head>
+<body>
 
-    <!-- Header -->
-    <header class="header">
-      <div class="container">
-        <div class="row">
-          <div class="col">
-            <div class="header_content d-flex flex-row align-items-center justify-content-start">
-              <div class="header_content_inner d-flex flex-row align-items-end justify-content-start">
-                <!-- <div class="logo"><a href="{% static 'home.html' %}">Sarcix</a></div> -->
-                <nav class="main_nav">
-                  <ul class="d-flex flex-row align-items-start justify-content-start">
-                    <li class="active"><a href="/">Home</a></li>
-                    <li><a href="#">Run</a></li>
-                    <li><a href="#">Reports</a></li>
-                    <li><a href="#">Analysis</a></li>
-                    <li><a href="#">Compare</a></li>
-                    <li><a href="#">Prepare</a></li>
-                    <li><a href="#">Setup</a></li>
-                    <li><a href="#">Help</a></li>
-                    {% if user.is_authenticated %}
+<div class="super_container">
+
+   <!-- Header -->
+  <header class="header">
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <div class="header_content d-flex flex-row align-items-center justify-content-start">
+            <div class="header_content_inner d-flex flex-row align-items-end justify-content-start">
+              <!-- <div class="logo"><a href="/">Sarcix</a></div> -->
+              <nav class="main_nav">
+                <ul class="d-flex flex-row align-items-start justify-content-start">
+                  <li class="active"><a href="/">Home</a></li>
+                  <li><a href="#">Run</a></li>
+                  <li><a href="#">Reports</a></li>
+                  <li><a href="#">Analysis</a></li>
+                  <li><a href="#">Compare</a></li>
+                  <li><a href="#">Prepare</a></li>
+                  <li><a href="#">Setup</a></li>
+                  <li><a href="#">Help</a></li>
+                  {% if user.is_authenticated %}
                     <li><a href="accounts/logout">Logout</a></li>
-                    <li>Hello, {{user.username}}</li>
-                    {% else %}
+                    <a>Hello, {{user.username}}</a>
+                  {% else %}
                     <li><a href="accounts/register">Register</a></li>
                     <li><a href="accounts/login">Login</a></li>
-                    {% endif %}
-                  </ul>
-                </nav>
-              </div>
+                  {% endif %}
+                </ul>
+              </nav>
             </div>
           </div>
         </div>
       </div>
-    </header>
+    </div>
+  </header>
 
-    {% block content %}
-    {% endblock %}
+  {% block content %}
+  {% endblock %}
   </body>
+  <script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
 </html>
