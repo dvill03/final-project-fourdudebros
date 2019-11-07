@@ -51,12 +51,13 @@ var dataset;
   // load data
   d3.json("./test_data.json", function(error, data) {
     data.forEach(function(d) {
-        d.day = +d.day;
+        d.day = +d.day; //+ is numeric operator conversion
         d.hour = +d.hour;
         d.value = +d.value;
     });
     dataset = data;
 
+    //(irrelevant since we don't need to switch maps in one run)
     // group data by location
     var nest = d3.nest()
       .key(function(d) { return d.location; })
