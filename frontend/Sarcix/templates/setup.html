@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+
+        <div class="col-xs-4">
+            <div class="dropdown">
+                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Outcomes
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a href="#">USMLE</a></li>
+                    <li><a href="#">School ABOs</a></li>
+                    <li><a href="#">Start New Outcomes</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-xs-4">
+            <div class="dropdown">
+                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Standard Outcomes
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a href="#">Standard_outcome_1</a></li>
+                    <li><a href="#">Standard_outcome_2</a></li>
+                    <li><a href="#">Standard_outcome_3</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-xs-4">
+            <p>Get some <a href="#" class="btn btn-info btn" role="button">Help</a></p>
+        </div>
+
+</div>
+
+<div class="container">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Sortable Code</th>
+                <th>A# Code</th>
+                <th>Title</th>
+                <th>Display</th>
+                <th>Content</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>0.01</td>
+                <td>1-1a</td>
+                <td>1-1a Obtain a complete and accurate</td>
+                <td>Obtain a complete and accurate history in an organized fashion.</td>
+                <td>Obtain a complete and accurate history in an organized fashion. Gather a history and perform...</td>
+            </tr>
+            <tr>
+                <td>0.02</td>
+                <td>1-1b</td>
+                <td>1-1b Demonstrate patient-centered interview skills</td>
+                <td>Demonstrate patient-centered interview skills (attentive</td>
+                <td>Demonstrate patient-centered interview skills (attentive to nonverbal cues...</td>
+            </tr>
+            <tr>
+                <td>0.03</td>
+                <td>1-1c</td>
+                <td>1-1c Identify pertinent history elements in</td>
+                <td>Identify pertinent history elements in common</td>
+                <td>Identify pertinent history elements in common presenting situations, symptoms, complaints, and disease states...</td>
+            </tr>
+            <tr>
+                <td>0.04</td>
+                <td>1-1d</td>
+                <td>1-1d Obtain focused, pertinent histories in</td>
+                <td>Obtain focused, pertinent histories in urgent, emergent, and consultative settings.</td>
+                <td>Obtain focused, pertinent histories in urgent, emergent, and consultative settings. Gather a history and perform a physical examination...</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<h4><a href="#" class="btn btn-info btn" role="button">Save</a></h4>
+
+<h4><a href="#" class="btn btn-info btn" role="button">Copy</a></h4>
+{% endblock %}
