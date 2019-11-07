@@ -11,4 +11,5 @@ urlpatterns = [
     path('prepare', views.prepare, name='prepare'),
     path('setup', views.setup, name='setup'),
     path('help', views.help, name='help'),
+    path('heatmap', views.heatmap, name='heatmap'),
 ]

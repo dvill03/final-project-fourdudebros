@@ -27,3 +27,7 @@ def setup(request):
 
 def help(request):
     return render(request, 'help.html')
+
+def heatmap(request):
+    #data
+    return render(request, 'heatmap.html')

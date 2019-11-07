@@ -79,7 +79,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'sarcix_test_db',
         'USER': 'postgres',
-        'PASSWORD': '2345',
+        'PASSWORD': '1601324',
         'HOST': 'localhost'
     }
 }
