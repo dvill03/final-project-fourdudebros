@@ -17,18 +17,23 @@
             <a class="navbar-brand" href="#">Sarcix</a>
         </div>
         <ul class="nav navbar-nav">
-            <li><a href="/">Home</a></li>
-            <li><a href="/run">Run</a></li>
-            <li><a href="reports">Reports</a></li>
-            <li><a href="/analysis">Analysis</a></li>
-            <li><a href="compare">Compare</a></li>
-            <li><a href="prepare">Prepare</a></li>
-            <li><a href="setup">Setup</a></li>
-            <li class="active"><a href="help">Help</a></li>
+            <li class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}"><a href="/">Home</a></li>
+            <li class="{% if request.resolver_match.url_name == 'run' %}active{% endif %}"><a href="/run">Run</a></li>
+            <li class="{% if request.resolver_match.url_name == 'reports' %}active{% endif %}"><a href="reports">Reports</a></li>
+            <li class="{% if request.resolver_match.url_name == 'analysis' %}active{% endif %}"><a href="/analysis">Analysis</a></li>
+            <li class="{% if request.resolver_match.url_name == 'compare' %}active{% endif %}"><a href="compare">Compare</a></li>
+            <li class="{% if request.resolver_match.url_name == 'prepare' %}active{% endif %}"><a href="prepare">Prepare</a></li>
+            <li class="{% if request.resolver_match.url_name == 'setup' %}active{% endif %}"><a href="setup">Setup</a></li>
+            <li class="{% if request.resolver_match.url_name == 'help' %}active{% endif %}"><a href="help">Help</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
             <li><a href="accounts/register"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+            {% if user.is_authenticated %}
+            <li><a>Hi, {{user.username}}</a></li>
+            <li><a href="accounts/logout"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+            {% else %}
             <li><a href="accounts/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+            {% endif %}
         </ul>
     </div>
 </nav>
