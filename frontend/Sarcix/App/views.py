@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.http import JsonResponse
 from .models import Run
 import psycopg2
 
@@ -29,11 +30,14 @@ def setup(request):
 def help(request):
     return render(request, 'help.html')
 
-def heatmap(request):
+def get_runs(request):
     con = psycopg2.connect(database='sarcix_test_db', user='postgres', password='1601324', host='localhost', port='5432')
     cur = con.cursor()
-    f = open('./static/js/data.csv', 'w')
-    cur.copy_to(f, 'run1', columns=('event_name', 'coverage_name', 'score'), sep=",")
-    con.commit()
-    con.close()
+    query_sql = "SELECT row_to_json(row) FROM (SELECT event_name, coverage_name, score FROM run1) row LIMIT 2;" 
+    cur.execute(query_sql)
+    results = cur.fetchall()
+    print(results)
+    return JsonResponse(results, safe=False)
+
+def heatmap(request):
     return render(request, 'heatmap.html')
