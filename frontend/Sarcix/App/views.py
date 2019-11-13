@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from .models import Run
+import psycopg2
 
 # Create your views here.
 
@@ -29,5 +30,10 @@ def help(request):
     return render(request, 'help.html')
 
 def heatmap(request):
-    #data
+    con = psycopg2.connect(database='sarcix_test_db', user='postgres', password='1601324', host='localhost', port='5432')
+    cur = con.cursor()
+    f = open('./static/js/data.csv', 'w')
+    cur.copy_to(f, 'run1', columns=('event_name', 'coverage_name', 'score'), sep=",")
+    con.commit()
+    con.close()
     return render(request, 'heatmap.html')
