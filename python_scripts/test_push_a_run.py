@@ -5,7 +5,7 @@ import psycopg2
 import xlrd
 from psycopg2.extras import execute_values
 
-loc = ("[Path to this file]/analysis_530_firstpage.xlsx")
+loc = ("C:/Users/Victor/Documents/GitHub/final-project-four-dudebros/python_scripts/analysis_530_firstpage.xlsx")
 
 wb = xlrd.open_workbook(loc)
 sheet = wb.sheet_by_index(0)
@@ -24,9 +24,9 @@ for i in range(1, sheet.nrows):
 conn = None
 
 try:
-    conn = psycopg2.connect(host="localhost",database="sarcix_test_db",user="postgres")
+    conn = psycopg2.connect(host="localhost",database="test", password="1601324", user="postgres")
     cur = conn.cursor()
-    execute_values(cur, "INSERT INTO run1(event_name, coverage_name, cover_score) VALUES %s ON CONFLICT DO NOTHING;",list_item)
+    execute_values(cur, "INSERT INTO run1(event_name, coverage_name, score) VALUES %s ON CONFLICT DO NOTHING;",list_item)
 
     conn.commit()
     cur.close()

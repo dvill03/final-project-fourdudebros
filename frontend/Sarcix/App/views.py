@@ -33,10 +33,10 @@ def help(request):
     return render(request, 'help.html')
 
 def get_runs(request):
-    con = psycopg2.connect(database='sarcix_test_db', user='postgres', password='1601324', host='localhost', port='5432')
+    con = psycopg2.connect(database='test', user='postgres', password='1601324', host='localhost', port='5432')
     cur = con.cursor(cursor_factory=RealDictCursor)
     #query_sql = "SELECT row_to_json(row) FROM (SELECT event_name, coverage_name, score FROM run1) as row LIMIT 5;" 
-    query_sql = "SELECT event_name, coverage_name, score FROM run1 LIMIT 10"
+    query_sql = "SELECT event_name, coverage_name, score FROM run1 LIMIT 5000" #44650 total
     cur.execute(query_sql)
     results = cur.fetchall()
     

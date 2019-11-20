@@ -77,7 +77,7 @@ WSGI_APPLICATION = 'Sarcix.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'sarcix_test_db',
+        'NAME': 'test',
         'USER': 'postgres',
         'PASSWORD': '1601324',
         'HOST': 'localhost'
