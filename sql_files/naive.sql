@@ -1,5 +1,6 @@
 DROP TABLE IF EXISTS naive CASCADE; 
 CREATE TABLE naive(
+    run_name TEXT,
     event_name TEXT, 
     b NUMERIC(3,2),
     c NUMERIC(3,2),
@@ -48,5 +49,5 @@ CREATE TABLE naive(
     att NUMERIC(3,2),
     au NUMERIC(3,2),
     av NUMERIC(3,2),
-    PRIMARY KEY (event_name)
+    PRIMARY KEY (run_name, event_name)
 ); 
