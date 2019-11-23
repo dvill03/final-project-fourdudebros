@@ -1,4 +1,6 @@
 from django.db import models
+from django import forms
+from django.contrib.postgres.fields import ArrayField
 from django.core.validators import MinValueValidator, MaxValueValidator
 
 # Create your models here.
@@ -20,6 +22,14 @@ class Run(models.Model):
     def __str__(self):
         return 'run1'
 
+
+class Test(models.Model):
+    run_name = models.CharField(primary_key=True, max_length=50)
+    event_names = ArrayField(base_field=models.TextField())
+    coverage_names = ArrayField(base_field=models.TextField())
+    scores = ArrayField(models.DecimalField(max_digits=3, decimal_places=2, validators=[MinValueValidator(0), MaxValueValidator(1)]))
+
+
 class Keywords(models.Model):
     event_id = models.CharField(primary_key=True, max_length=6)
     event_title = models.TextField()
@@ -35,5 +45,8 @@ class Keywords(models.Model):
 
     def __str__(self):
         return 'keywords1'
+
+class FileUploadForm(forms.Form):
+    file_source = forms.FileField()
 
 # User class is built-in

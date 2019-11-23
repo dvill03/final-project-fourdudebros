@@ -10,6 +10,7 @@ django = "*"
 psycopg2 = "*"
 pillow = "*"
 xlrd = "*"
+django-filebrowser = "*"
 
 [requires]
 python_version = "3.6"

@@ -11,4 +11,8 @@ urlpatterns = [
     path('prepare', views.prepare, name='prepare'),
     path('setup', views.setup, name='setup'),
     path('help', views.help, name='help'),
+    path('get_runs', views.get_runs, name='get_runs'),
+    path('heatmap', views.heatmap, name='heatmap'),
+    path('run_modal', views.run_modal, name='run_modal'),
+    path('push_run_script', views.push_run_script, name='push_run_script'),
 ]
