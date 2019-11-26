@@ -1,4 +1,3 @@
-<<<<<<< Updated upstream
 {% extends 'base.html' %}
 {% load tags %}
 {% load staticfiles %}
@@ -65,190 +64,51 @@
 
 <h4>Run Complete
     <a href="#" class="btn btn-info btn" role="button">Reports</a>
-    <a href="#" class="btn btn-info btn" role="button">Analysis</a>
+    <button class="btn btn-info btn" data-toggle="modal" data-target="imagemodal" name="heatmap" value="heatmap">Analysis</button>
 </h4>
 
 <h4>Run Failed</h4>
 <p>Error 000N: Get some <a href="#" class="btn btn-info btn" role="button">Help</a></p>
 
-<form></form>
+
+<!-- add new run to db -->
+<br> <label>Add new run</label>
+<form></form>   <!-- Add element to DOM for upcoming form element query -->
 <form method="post" class="needs-validation" enctype="multipart/form-data"  action="/push_run_script" id="fupload">
     {% csrf_token %}
-    <div class="input-group">
-        <input type="file" class="form-control" name="data_file" id="my_file" required>
-        <span class="input-group-btn">
-            <button type="submit" class="btn btn-info">Upload files</button>
-        </span>
-    </div>
-</form>
-
-
-<!-- get run data -->
-<form action="run_modal" method="post">
-  {% csrf_token %}
-  <button type="submit" class="btn btn-primary">Popup</button>
-</form>
-
-<!-- run modal -->
-<div class="modal fade main-modal" tabindex="-1" id="run_modal" >
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Run</h4>
-            </div>
-            <div style=" height: 750px; overflow-y: scroll;">
-                <table class="table table-bordered table-sm" style="table-layout: fixed; width: 100%">
-                    <thead>
-                        <tr>
-                            <th>Event Name</th>
-                            <th>Coverage Name</th>
-                            <th>Coverage Score</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for entry in run1 %}
-                            <tr >
-                                <td style="word-wrap: break-word">{{entry.event_name}}</td>
-                                <td>{{entry.coverage_name}}</td>
-                                <td>{{entry.score}}</td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!--  block scripts -->
-{% if modal %}
-    <script type="text/javascript">
-        $(document).ready(function(){
-            $("#run_modal").modal('show');
-        });
-    </script>
-
-    {% update_variable False as modal %}
-{% endif %}
-
-
-<script type="text/javascript">
-var frm = $('#fupload');
-frm.submit(function () {
-    event.preventDefefault(); // No reload, just send data
-    var file =  new FormData(frm.get(0));
-    $.ajax({
-        type: frm.attr('method'),
-        url: frm.attr('action'),
-        data: file,
-        processData: false,
-        contentType: false,
-        success: function (data) {
-            alert('Run was sent to your postgres db');
-        },
-        error: function(data) {
-            alert('Oops, there was an error');
-        }
-    });
-    return false;
-});
-</script>
-
-{% endblock %}
-=======
-{% extends 'base.html' %}
-{% load tags %}
-{% load staticfiles %}
-
-{% block content %}
-
-<div class="container">
     <div class="row">
-
-        <div class="col-xs-4">
-            <div class="dropdown">
-                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Select Curriculum
-                    <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu">
-                    <li><a href="#">Curr_17-18</a></li>
-                    <li><a href="#">Test_Curr</a></li>
-                    <li><a href="#">Curr_18-19</a></li>
-                </ul>
+        <div class="form-group col-sm-3">
+            <div class="input-group"> <span class="input-group-addon"></span>
+                <input type="text" class="form-control" name="run_name" placeholder="Choose your run name" required/>
             </div>
         </div>
-
-        <div class="col-xs-4">
-            <div class="dropdown">
-                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Select Outcomes
-                    <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu">
-                    <li><a href="#">USMLE</a></li>
-                    <li><a href="#">School ABOs</a></li>
-                </ul>
+        <div class="form-group col-sm-6">
+            <div class="input-group">
+                <input type="file" class="form-control" name="data_file" style="width:450px;" required/>
             </div>
         </div>
-
-        <div class="col-xs-4">
-            <div class="dropdown">
-                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Other Parameters
-                    <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu">
-                    <li><a href="#">X</a></li>
-                    <li><a href="#">Y</a></li>
-                    <li><a href="#">Z</a></li>
-                </ul>
+        <div class="form-group col-sm-3">
+            <div class="input-group">
+              <button type="submit" class="btn btn-info" style="">Create table in postgres</button>
             </div>
         </div>
-
-</div>
-
-<div class="form-group">
-    <label for="run">Name the Run:</label>
-    <input type="text" class="form-control" id="run">
-</div>
-
-
-<form id="form-group" action="" method="post">
-  {% csrf_token %}
-  <button type="submit" class="btn btn-primary btn-block" name="map" value="map">Map It</button>
-  <div modal
-</form>
-
-
-<h4>Run Status</h4>
-
-<h4>Run Complete
-    <a href="#" class="btn btn-info btn" role="button">Reports</a>
-    <a href="#" class="btn btn-info btn" role="button">Analysis</a>
-</h4>
-
-<h4>Run Failed</h4>
-<p>Error 000N: Get some <a href="#" class="btn btn-info btn" role="button">Help</a></p>
-
-<form></form>
-<form method="post" class="needs-validation" enctype="multipart/form-data"  action="/push_run_script" id="fupload">
-    {% csrf_token %}
-    <div class="input-group">
-        <input type="file" class="form-control" name="data_file" id="my_file" required>
-        <span class="input-group-btn">
-            <button type="submit" class="btn btn-info">Upload files</button>
-        </span>
     </div>
 </form>
 
 
 <!-- get run data -->
-<form action="run_modal" method="post">
+<form action="run_modal" method="post" id="naive_modal_btn">
   {% csrf_token %}
-  <button type="submit" class="btn btn-primary">Popup</button>
+  <input type="submit" class="btn btn-primary" value="Show naive modal"/>
+</form>
+
+<form action="run_modal" method="post" id="original_modal_btn">
+  {% csrf_token %}
+  <input type="submit" class="btn btn-primary" value="Show original modal"/>
 </form>
 
 <!-- run modal -->
-<div class="modal fade main-modal" tabindex="-1" id="run_modal" >
+<div class="modal fade main-modal" tabindex="-1" id="original_modal" >
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -279,22 +139,86 @@ frm.submit(function () {
     </div>
 </div>
 
+
+
+<!-- run modal -->
+<div class="modal fade main-modal" tabindex="-1" id="naive_modal" >
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Run</h4>
+            </div>
+            <div style=" height: 750px; overflow:scroll; overflow:auto; ">
+                <table class="table table-bordered table-sm" style="">
+                    <thead>
+                        <tr class="naive-table-header">
+                          <!--
+                            <th>Event Name</th>
+                            <th>Coverage Name</th>
+                            <th>Coverage Score</th>
+                            -->
+                        </tr>
+                    </thead>
+                    <tbody class="naive-table-body">
+                        <tr class="naive-table-body">
+                            <!--
+                            <td style="word-wrap: break-word">{{entry.event_name}}</td>
+                            <td>{{entry.coverage_name}}</td>
+                            <td>{{entry.score}}</td>
+                            -->
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade"  tabindex="-1" id="imagemodal">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="myModalLabel">Run Heatmap</h4>
+      </div>
+      <div class="modal-body">
+        <img src="data:image/png;base64, {{ heatmap }}" id="imagepreview" style="width: 870px; height: 600px;" >
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!--  block scripts -->
 {% if modal %}
-    <script type="text/javascript">
-        $(document).ready(function(){
-            $("#run_modal").modal('show');
-        });
-    </script>
-
-    {% update_variable False as modal %}
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("#original_modal").modal('show');
+    });
+</script>
+{% update_variable False as modal %}
 {% endif %}
 
 
+{% if heatmap != None %}
 <script type="text/javascript">
+    $(document).ready(function() {
+        $('#imagemodal').modal('show');
+    });
+  //<img src= "data:image/png;base64, {{ heatmap }}" style="float:left;" align="middle">
+</script>
+{% update_variable False as heatmap %}
+{% endif%}
+
+<!-- Send run to postgres -->
+
+<script type="text/javascript">
+// Send file of our run to postgres
 var frm = $('#fupload');
 frm.submit(function () {
-    event.preventDefefault(); // No reload, just send data
     var file =  new FormData(frm.get(0));
     $.ajax({
         type: frm.attr('method'),
@@ -306,7 +230,44 @@ frm.submit(function () {
             alert('Run was sent to your postgres db');
         },
         error: function(data) {
-            alert('Oops, there was an error');
+            alert('Form submission failed');
+        }
+    });
+    return false;
+});
+
+// Show our modal for selected run
+var mfrm = $('#naive_modal_btn');
+mfrm.submit(function () {
+    event.preventDefault();
+    $.ajax({
+        type: mfrm.attr('method'),
+        url: mfrm.attr('action'),
+        success: function(data) {
+          console.log("data:" + data);
+          var keys = Object.keys(data);
+          keys.forEach(function(key){
+              console.log(key, data[key]);
+              for (var i=0; i<data[key].length; i++) {
+                  console.log(data[key][i]);
+              }
+          });
+
+          keys = Object.keys(data['run1'][0]);
+
+          keys.forEach(function(key){
+              var table_header = "<th>" + key + "</th>";
+              $("tr.naive-table-header").append(table_header);
+              console.log(key);
+          });
+
+          console.log("data:" + data['run1']);
+
+          var table_data = "<td style=\"word-wrap: break-word\>" + data['run1'][0]['run_name'] + "</td>";
+          $("tr.naive-table-body").append(table_data);
+          $("tr.naive-table-body").append(table_data);
+          $("tr.naive-table-body").append(table_data);
+          $("#naive_modal").modal('show');
         }
     });
     return false;
@@ -314,4 +275,3 @@ frm.submit(function () {
 </script>
 
 {% endblock %}
->>>>>>> Stashed changes

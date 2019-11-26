@@ -23,13 +23,6 @@ class Run(models.Model):
         return 'run1'
 
 
-class Test(models.Model):
-    run_name = models.CharField(primary_key=True, max_length=50)
-    event_names = ArrayField(base_field=models.TextField())
-    coverage_names = ArrayField(base_field=models.TextField())
-    scores = ArrayField(models.DecimalField(max_digits=3, decimal_places=2, validators=[MinValueValidator(0), MaxValueValidator(1)]))
-
-
 class Keywords(models.Model):
     event_id = models.CharField(primary_key=True, max_length=6)
     event_title = models.TextField()
@@ -46,7 +39,60 @@ class Keywords(models.Model):
     def __str__(self):
         return 'keywords1'
 
-class FileUploadForm(forms.Form):
-    file_source = forms.FileField()
+class Naive(models.Model):
+    run_name = models.TextField(primary_key=True)
+    event_name = models.TextField()
+    b = models.DecimalField(max_digits=3, decimal_places=2)
+    c = models.DecimalField(max_digits=3, decimal_places=2)
+    d = models.DecimalField(max_digits=3, decimal_places=2)
+    e = models.DecimalField(max_digits=3, decimal_places=2)
+    f = models.DecimalField(max_digits=3, decimal_places=2)
+    g = models.DecimalField(max_digits=3, decimal_places=2)
+    h = models.DecimalField(max_digits=3, decimal_places=2)
+    i = models.DecimalField(max_digits=3, decimal_places=2)
+    j = models.DecimalField(max_digits=3, decimal_places=2)
+    k = models.DecimalField(max_digits=3, decimal_places=2)
+    l = models.DecimalField(max_digits=3, decimal_places=2)
+    m = models.DecimalField(max_digits=3, decimal_places=2)
+    n = models.DecimalField(max_digits=3, decimal_places=2)
+    o = models.DecimalField(max_digits=3, decimal_places=2)
+    p = models.DecimalField(max_digits=3, decimal_places=2)
+    q = models.DecimalField(max_digits=3, decimal_places=2)
+    r = models.DecimalField(max_digits=3, decimal_places=2)
+    s = models.DecimalField(max_digits=3, decimal_places=2)
+    t = models.DecimalField(max_digits=3, decimal_places=2)
+    u = models.DecimalField(max_digits=3, decimal_places=2)
+    v = models.DecimalField(max_digits=3, decimal_places=2)
+    w = models.DecimalField(max_digits=3, decimal_places=2)
+    x = models.DecimalField(max_digits=3, decimal_places=2)
+    y = models.DecimalField(max_digits=3, decimal_places=2)
+    z = models.DecimalField(max_digits=3, decimal_places=2)
+    aa = models.DecimalField(max_digits=3, decimal_places=2)
+    ab = models.DecimalField(max_digits=3, decimal_places=2)
+    ac = models.DecimalField(max_digits=3, decimal_places=2)
+    ad = models.DecimalField(max_digits=3, decimal_places=2)
+    ae = models.DecimalField(max_digits=3, decimal_places=2)
+    af = models.DecimalField(max_digits=3, decimal_places=2)
+    ag = models.DecimalField(max_digits=3, decimal_places=2)
+    ah = models.DecimalField(max_digits=3, decimal_places=2)
+    ai = models.DecimalField(max_digits=3, decimal_places=2)
+    aj = models.DecimalField(max_digits=3, decimal_places=2)
+    ak = models.DecimalField(max_digits=3, decimal_places=2)
+    al = models.DecimalField(max_digits=3, decimal_places=2)
+    am = models.DecimalField(max_digits=3, decimal_places=2)
+    an = models.DecimalField(max_digits=3, decimal_places=2)
+    ao = models.DecimalField(max_digits=3, decimal_places=2)
+    ap = models.DecimalField(max_digits=3, decimal_places=2)
+    aq = models.DecimalField(max_digits=3, decimal_places=2)
+    ar = models.DecimalField(max_digits=3, decimal_places=2)
+    ass = models.DecimalField(max_digits=3, decimal_places=2)
+    att = models.DecimalField(max_digits=3, decimal_places=2)
+    au = models.DecimalField(max_digits=3, decimal_places=2)
+    av = models.DecimalField(max_digits=3, decimal_places=2)
+
+    class Meta:
+        managed = False
+        db_table = 'naive'
+        unique_together = (('run_name', 'event_name'),)
 
 # User class is built-in

@@ -11,6 +11,9 @@ psycopg2 = "*"
 pillow = "*"
 xlrd = "*"
 django-filebrowser = "*"
+numpy = "*"
+seaborn = "*"
+django-compositepks = "*"
 
 [requires]
 python_version = "3.6"

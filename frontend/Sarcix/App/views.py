@@ -3,12 +3,12 @@ from django.http import HttpResponse
 from django.http import JsonResponse
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
-from django.views.decorators.csrf import csrf_protect
-from .models import Run
+from django.views.decorators.csrf import csrf_protect, csrf_exempt
+from .models import Run, Naive
 from pathlib import Path
 from filebrowser.base import FileObject
-import psycopg2, json, sys, os
-
+from io import BytesIO
+import psycopg2, json, sys, os, base64
 
 # home
 def home(request):
@@ -28,10 +28,16 @@ def home(request):
 def run(request):
     context = {}
 
+    #heatmap
+    if request.POST.get('heatmap') == 'heatmap':
+        from scripts import django_heatmap_naive as hm
+        #hm.getRunHeatmap('naive')
+        html = hm.getRunHeatmap('naive')
+        return render(request, 'run.html', {'heatmap': html})
+
     #map
-    if request.POST.get('map') == 'map':
+    elif request.POST.get('map') == 'map':
         context['run1'] = Run.objects.all()
-        print('map')
 
     #upload_run
     elif request.POST.get('data_file') == 'data_file':
@@ -42,9 +48,8 @@ def run(request):
             if not filepath.is_file():
                 fs = FileSystemStorage()
                 fs.save(file.name, file)
-            sys.path.append(settings.BASE_DIR + "/../../python_scripts")
-            import django_test_push_a_run as push_run
-            push_run.load(filepath)
+            from scripts import django_naive_push as push_run
+            push_run.load("naive", filepath)
             os.remove(filepath)
         else:
             print ("BAD FILEPATH")
@@ -52,11 +57,18 @@ def run(request):
     print(context)
     return render(request, 'run.html', context)
 
+@csrf_exempt
 def run_modal(request):
-    context = {}
-    context['run1'] = Run.objects.all()
-    context['modal'] = True
-    return render(request, 'run.html', context)
+    context = []
+    if request.method == "POST" and request.is_ajax():
+        print("is ajax")
+        context = list(Naive.objects.all().values()[:50])
+    else:
+        print("not ajax")
+
+    print(context)
+
+    return JsonResponse({"run1": context})
 
 # reports
 def reports(request):
@@ -97,17 +109,24 @@ def heatmap(request):
 
 @csrf_protect
 def push_run_script(request):
-    #file = dict(request.POST.items())['file']
-    #file.path
-    #print(file)
-    print(request.FILES)
     if request.method == "POST" and request.is_ajax():
         print("Ajax")
-        file=request.FILES.get('my_file', False)
+        file=request.FILES.get('data_file', False)
+        run_name = request.POST.get('run_name', False)
+        print("run_name:", run_name)
         if (file):
-            print("File")
+            # Can't give a path becuase it's accepted as an in_memory_file. Store, run, then delete the run
+            filepath = Path(settings.BASE_DIR + "/media/" + file.name)
+            if not filepath.is_file():
+                fs = FileSystemStorage()
+                fs.save(file.name, file)
+            sys.path.append(settings.BASE_DIR + "/../../python_scripts")
+            import django_naive_push as push_run
+            push_run.load(filepath, "naive")
+            os.remove(filepath)
         else:
-            print("No file")
+            print ("BAD REQUEST")
+
         response = JsonResponse(dict(request.POST.items()))
         print(response.content)
         return JsonResponse(dict(request.POST.items()))
