@@ -7,8 +7,7 @@ from django.views.decorators.csrf import csrf_protect, csrf_exempt
 from .models import Run, Naive
 from pathlib import Path
 from filebrowser.base import FileObject
-from io import BytesIO
-import psycopg2, json, sys, os, base64
+import psycopg2, json, sys, os
 
 # home
 def home(request):
@@ -57,18 +56,20 @@ def run(request):
     print(context)
     return render(request, 'run.html', context)
 
+
 @csrf_exempt
 def run_modal(request):
-    context = []
+    run_data = []
+    run_name = request.POST.get('run_name', False)
     if request.method == "POST" and request.is_ajax():
         print("is ajax")
-        context = list(Naive.objects.all().values()[:50])
+        run_data = list(Naive.objects.all().values()[:100]) #remove slice after fully completed
+
     else:
         print("not ajax")
 
-    print(context)
-
-    return JsonResponse({"run1": context})
+    #print(context)
+    return JsonResponse({"run": run_data, "run_name": run_name})
 
 # reports
 def reports(request):
@@ -110,10 +111,8 @@ def heatmap(request):
 @csrf_protect
 def push_run_script(request):
     if request.method == "POST" and request.is_ajax():
-        print("Ajax")
         file=request.FILES.get('data_file', False)
         run_name = request.POST.get('run_name', False)
-        print("run_name:", run_name)
         if (file):
             # Can't give a path becuase it's accepted as an in_memory_file. Store, run, then delete the run
             filepath = Path(settings.BASE_DIR + "/media/" + file.name)

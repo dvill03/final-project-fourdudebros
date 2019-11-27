@@ -5,7 +5,7 @@ from psycopg2.extras import execute_values
 import numpy as np
 import seaborn as sb
 import matplotlib
-matplotlib.use('svg')      #type of renderer, Agg is nice but buggy
+matplotlib.use('Agg')      #type of renderer
 import matplotlib.pyplot as plt
 from io import BytesIO
 import base64
@@ -32,8 +32,10 @@ def getRunHeatmap(run_name):
             c_lst.append(tuple(d_lst))
             d_lst.clear()
 
-        heat_map = sb.heatmap(c_lst)
-        plt.yticks(rotation=360)
+        #heat_map = sb.heatmap(c_lst, annot=True, linewidths=.5)
+        fig, axis = plt.subplots()
+        heatmap = axis.pcolor(c_lst) # heatmap contient les valeurs
+        plt.colorbar(heatmap)
 
         #plt.show()
 
@@ -46,8 +48,7 @@ def getRunHeatmap(run_name):
 
     #get uri
     buf = BytesIO()
-    plt.show()          #instead of displaying, we store in our buffer
-    plt.savefig(buf, format='png')
+    plt.savefig(buf, format='png') # instead of plt.show(), save figure in buffer
     fig_png = base64.b64encode(buf.getvalue()).decode()
     buf.close()
     return fig_png;
