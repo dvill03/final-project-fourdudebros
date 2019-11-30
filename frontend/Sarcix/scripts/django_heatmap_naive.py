@@ -17,9 +17,9 @@ def getRunHeatmap(run_name):
     try:
         conn = psycopg2.connect(host="localhost",database="sarcix_test_db",user="postgres", password="2345")
         cur = conn.cursor()
-        cur.execute(sql.SQL("""SELECT * INTO TempTable FROM {};
+        cur.execute("""SELECT * INTO TempTable FROM naive WHERE run_name = %s;
                     ALTER TABLE TempTable DROP COLUMN "event_name", DROP "run_name";
-                    SELECT * FROM TempTable;""").format(sql.Identifier(run_name)))
+                    SELECT * FROM TempTable;""", (run_name,))
         #print("The number of parts: ", cur.rowcount)
         str_lst= cur.fetchall()
         #print(str_lst[0])

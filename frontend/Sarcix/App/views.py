@@ -11,65 +11,29 @@ import psycopg2, json, sys, os
 
 # home
 def home(request):
-    if request.POST.get('reports') == 'Reports':
-
-        #tables = connection.introspection.table_names()
-        #seen_models = connection.introspection.installed_models(tables)
-        return HttpResponse(status=204)
-
-    if request.POST.get('Next') == 'Next':
-        print("\nFirst event_name:", run[0].event_name, "\nFirst coverage_name:", run[0].coverage_name, "\nFirst score:", run[0].score, "\n")
-        return HttpResponse(status=204)
-
     return render(request, 'home.html')
 
 # run
 def run(request):
-    context = {}
-
-    #heatmap
-    if request.POST.get('heatmap') == 'heatmap':
-        from scripts import django_heatmap_naive as hm
-        #hm.getRunHeatmap('naive')
-        html = hm.getRunHeatmap('naive')
-        return render(request, 'run.html', {'heatmap': html})
-
-    #map
-    elif request.POST.get('map') == 'map':
-        context['run1'] = Run.objects.all()
-
-    #upload_run
-    elif request.POST.get('data_file') == 'data_file':
-        file=request.FILES.get('document', False)
-        if (file):
-            # Can't give a path becuase it's accepted as an in_memory_file. Store, run, then delete the run
-            filepath = Path(settings.BASE_DIR + "/media/" + file.name)
-            if not filepath.is_file():
-                fs = FileSystemStorage()
-                fs.save(file.name, file)
-            from scripts import django_naive_push as push_run
-            push_run.load("naive", filepath)
-            os.remove(filepath)
-        else:
-            print ("BAD FILEPATH")
-
-    print(context)
-    return render(request, 'run.html', context)
+    return render(request, 'run.html')
 
 
 @csrf_exempt
 def run_modal(request):
     run_data = []
-    run_name = request.POST.get('run_name', False)
-    if request.method == "POST" and request.is_ajax():
+    run_name = request.GET.get('run_name', False)
+    print(run_name)
+    if request.method == "GET" and request.is_ajax():
         print("is ajax")
-        run_data = list(Naive.objects.all().values()[:100]) #remove slice after fully completed
-
+        if (request.GET.get('modal_type') == 'naive'):
+            run_data = list(Naive.objects.all().values()) #remove slice after fully completed
+        else:
+            run_data = list(Run.objects.all().values())
     else:
         print("not ajax")
 
     #print(context)
-    return JsonResponse({"run": run_data, "run_name": run_name})
+    return JsonResponse({"run": run_data})
 
 # reports
 def reports(request):
@@ -95,7 +59,6 @@ def setup(request):
 def help(request):
     return render(request, 'help.html')
 
-#
 def get_runs(request):
     con = psycopg2.connect(database='sarcix_test_db', user='postgres', password='2345', host='localhost', port='5432')
     cur = con.cursor()
@@ -104,6 +67,19 @@ def get_runs(request):
     results = cur.fetchall()
     print(results)
     return JsonResponse(results, safe=False)
+
+# Dropdowns
+def dropdowns(request):
+    runs = list(Naive.objects.values("run_name").distinct())
+    return JsonResponse(runs, safe=False)
+
+
+# Heatmap
+def get_analysis(request):
+    from scripts import django_heatmap_naive as hm
+    print(request.GET.get('curriculum'))
+    heatmap = hm.getRunHeatmap(request.GET.get('curriculum'))
+    return JsonResponse(heatmap, safe=False)
 
 def heatmap(request):
     return render(request, 'heatmap.html')
@@ -119,15 +95,11 @@ def push_run_script(request):
             if not filepath.is_file():
                 fs = FileSystemStorage()
                 fs.save(file.name, file)
-            sys.path.append(settings.BASE_DIR + "/../../python_scripts")
-            import django_naive_push as push_run
-            push_run.load(filepath, "naive")
+            from scripts import django_naive_push as push_run
+            push_run.load(filepath, run_name)
             os.remove(filepath)
         else:
             print ("BAD REQUEST")
-
-        response = JsonResponse(dict(request.POST.items()))
-        print(response.content)
         return JsonResponse(dict(request.POST.items()))
     else:
         print("Not Ajax")

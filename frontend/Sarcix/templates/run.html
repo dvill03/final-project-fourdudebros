@@ -4,44 +4,46 @@
 
 {% block content %}
 <link rel="stylesheet" href="{% static '/styles/run.css' %}">
+<link rel="stylesheet" href="{% static '/styles/jquery.dataTables-1.10.20.min.css' %}">
+<script src="{% static '/js/jquery.dataTables-1.10.20.min.js' %}"></script>
+
+
+
 <div class="container">
     <div class="row">
 
         <div class="col-xs-4">
             <div class="dropdown">
-                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Select Curriculum
-                    <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu">
-                    <li><a href="#">Curr_17-18</a></li>
-                    <li><a href="#">Test_Curr</a></li>
-                    <li><a href="#">Curr_18-19</a></li>
-                </ul>
+                <div class="form-group">
+                  <label for="run">Run Select</label>
+                  <select id="run" class="form-control">
+                  </select>
+                </div>
             </div>
         </div>
 
         <div class="col-xs-4">
             <div class="dropdown">
-                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Select Outcomes
-                    <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu">
-                    <li><a href="#">USMLE</a></li>
-                    <li><a href="#">School ABOs</a></li>
-                </ul>
+                <div class="form-group">
+                  <label for="outcomes">Select Outcomes</label>
+                  <select id="outcomes" class="form-control">
+                    <option>USMLE</option>
+                    <option>School ABOs</option>
+                  </select>
+                </div>
             </div>
         </div>
 
         <div class="col-xs-4">
             <div class="dropdown">
-                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Other Parameters
-                    <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu">
-                    <li><a href="#">X</a></li>
-                    <li><a href="#">Y</a></li>
-                    <li><a href="#">Z</a></li>
-                </ul>
+                <div class="form-group">
+                  <label for="otherParams">Other Parameters</label>
+                  <select id="otherParams" class="form-control">
+                    <option>X</option>
+                    <option>Y</option>
+                    <option>Z</option>
+                  </select>
+                </div>
             </div>
         </div>
 
@@ -52,19 +54,13 @@
     <input type="text" class="form-control" id="run">
 </div>
 
-
-<form id="form-group" action="" method="post">
-  {% csrf_token %}
-  <button type="submit" class="btn btn-primary btn-block" name="map" value="map">Map It</button>
-  <div modal
-</form>
-
+<button type="button" class="btn btn-primary btn-block">Map It</button>
 
 <h4>Run Status</h4>
 
 <h4>Run Complete
     <a href="#" class="btn btn-info btn" role="button">Reports</a>
-    <button class="btn btn-info btn" data-toggle="modal" data-target="imagemodal" name="heatmap" value="heatmap">Analysis</button>
+    <button id="analysis" class="btn btn-info btn" data-toggle="modal" data-target="imagemodal">Analysis</button>
 </h4>
 
 <h4>Run Failed</h4>
@@ -82,12 +78,12 @@
                 <input type="text" class="form-control" name="run_name" placeholder="Choose your run name" required/>
             </div>
         </div>
-        <div class="form-group col-sm-6">
-            <div class="input-group">
-                <input type="file" class="form-control" name="data_file" style="width:450px;" required/>
+        <div class="form-group col-sm-7">
+            <div class="input-group" style="width: 100%;">
+                <input type="file" class="form-control" name="data_file" required/>
             </div>
         </div>
-        <div class="form-group col-sm-3">
+        <div class="form-group col-sm-2">
             <div class="input-group">
               <button type="submit" class="btn btn-info" style="">Create table in postgres</button>
             </div>
@@ -97,34 +93,28 @@
 
 
 <!-- get run data -->
-<form action="run_modal" method="post" id="naive_modal_btn">
-  {% csrf_token %}
-  <input type="submit" class="btn btn-primary" value="Show naive modal"/>
-</form>
+  <button id="naive-modal-btn" type="button" class="btn btn-primary">Show naive modal</button>
+  <button id="original-modal-btn" type="button" class="btn btn-primary">Show original modal</button>
 
-<form action="run_modal" method="post" id="original_modal_btn">
-  {% csrf_token %}
-  <input type="submit" class="btn btn-primary" value="Show original modal"/>
-</form>
 
 <!-- run modal -->
-<div class="modal fade main-modal" tabindex="-1" id="original_modal" >
+<div class="modal fade main-modal" tabindex="-1" id="original-modal" >
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Run</h4>
+                <h4 class="original-modal-title"></h4>
             </div>
             <div style=" height: 750px; overflow-y: scroll;">
-                <table class="table table-bordered table-sm" style="table-layout: fixed; width: 100%">
-                    <thead>
+                <table id="original-table" class="table table-bordered table-sm" style="table-layout: fixed; width: 100%">
+                    <thead class="original-thead">
                         <tr>
                             <th>Event Name</th>
                             <th>Coverage Name</th>
                             <th>Coverage Score</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="original-tbody">
                         {% for entry in run1 %}
                             <tr >
                                 <td style="word-wrap: break-word">{{entry.event_name}}</td>
@@ -141,34 +131,24 @@
 
 
 
-<!-- run modal -->
-<div class="modal fade main-modal" tabindex="-1" id="naive_modal" >
+<!-- naive run modal -->
+<div class="modal fade main-modal" tabindex="-1" id="naive-modal" >
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="naive-modal-title"></h4>
             </div>
-            <div class="naive-data-table">
-                <div class="naive-data-table-inner">
-                    <table class="">
-                        <thead class="naive-thead">
-
-                          <!--
-                            <th>Event Name</th>
-                            <th>Coverage Name</th>
-                            <th>Coverage Score</th>
-                            -->
-                        </thead>
-                        <tbody class="naive-tbody">
-                                <!--
-                                <td style="word-wrap: break-word">{{entry.event_name}}</td>
-                                <td>{{entry.coverage_name}}</td>
-                                <td>{{entry.score}}</td>
-                                -->
-                        </tbody>
-                    </table>
-                </div>
+            <div class="modal-body">
+              <div class="naive-data-table">
+                  <div class="naive-data-table-inner">
+                      <table id="naive-table" class="display nowrap" style="width:100%">
+                          <thead class="naive-thead">
+                            <tr></tr>
+                          </thead>
+                      </table>
+                  </div>
+              </div>
             </div>
         </div>
     </div>
@@ -179,10 +159,10 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal"</button>
-        <h4 class="modal-title" id="myModalLabel">Run Heatmap</h4>
+        <h4 class="modal-title" id="imagelabel"></h4>
       </div>
       <div class="modal-body">
-        <img src="data:image/png;base64, {{ heatmap }}" id="imagepreview" style="width: 870px; height: 600px;" >
+        <img src="" id="imagepreview" style="width: 870px; height: 600px;" >
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -190,120 +170,4 @@
     </div>
   </div>
 </div>
-
-<!--  block scripts -->
-{% if modal != None %}
-<script type="text/javascript">
-    $(document).ready(function(){
-        $("#original_modal").modal('show');
-    });
-</script>
-{% update_variable False as modal %}
-{% endif %}
-
-
-{% if heatmap != None %}
-<script type="text/javascript">
-    $(document).ready(function() {
-        $('#imagemodal').modal('show');
-    });
-</script>
-{% update_variable False as heatmap %}
-{% endif%}
-
-<!-- Send run to postgres -->
-
-<script type="text/javascript">
-// Send file of our run to postgres
-var frm = $('#fupload');
-frm.submit(function () {
-    var file =  new FormData(frm.get(0));
-    $.ajax({
-        type: frm.attr('method'),
-        url: frm.attr('action'),
-        data: file,
-        processData: false,
-        contentType: false,
-        success: function (data) {
-            alert('Run was sent to your postgres db');
-        },
-        error: function(data) {
-            alert('Form submission failed');
-        }
-    });
-    return false;
-});
-
-/*
-document.querySelector('.naive-data-table').onscroll = function (e) {
-  // called when the window is scrolled.
-  var topOfDiv = Math.max(document.querySelector(".naive-data-table").scrollTop - 2, 0);
-  document.getElementsByTagName('thead')[0].style = "top:" + topOfDiv + "px;";
-}*/
-
-// Show our modal for selected run
-/*Cases to be handled for title: if !empty and different (different run) -> empty content (NOT HANDLED)
-  if empty (first time or previously removed) -> add content  (NOT HANDLED)
-  else (same) -> display_modal  (HANDLED)
-*/
-var mfrm = $('#naive_modal_btn');
-mfrm.submit(function () {
-    event.preventDefault();
-    $.ajax({
-        type: mfrm.attr('method'),
-        url: mfrm.attr('action'),
-        data: {'run_name': 'naive'},
-        success: function(data) {
-          // Check if database returned successfully return some data, check if data is empty
-          if (data.hasOwnProperty('run') && data['run'][0].hasOwnProperty('run_name')) {
-            var run = data['run'];
-            var runName = data['run_name'];
-            var title = "Table for run: " + runName.charAt(0).toUpperCase() + runName.slice(1).toLowerCase();
-            // If we already added this data, don't add again, just display
-            // ***Makes assumption that the data that was asked for is the same as on previous attempt***
-            if ($('h4.naive-modal-title').html() !== title) {
-
-              // Add title
-              $("h4.naive-modal-title").append(title);
-
-              // Add headers
-              var headers = Object.getOwnPropertyNames(run[0]);
-              headers.shift();
-              $("tbody.naive-tbody").append("<tr>");
-              headers.forEach(function(header){
-                var table_header = "<th>" + header + "</th>";
-                $("table tr").append(table_header);
-              });
-              $("tbody.naive-tbody").append("</tr>");
-
-              // Add data row
-              for (var i=0; i<run.length; i++) {
-                if (run[i].hasOwnProperty('run_name')) {
-                  delete run[i].run_name;
-                }
-                $("tbody.naive-tbody").append("<tr>");
-
-                values = Object.values(run[i])
-                values.forEach(function(value) {
-                  var table_data = "<td>" + value + "</td>";
-                  $("tbody.naive-tbody").append(table_data);
-                });
-
-                $("tbody.naive-tbody").append("</tr>");
-              }
-            }
-
-            $("#naive_modal").modal('show');
-
-          }
-        },
-        error: function (data) {
-            alert("Failed");
-        }
-
-    });
-    return false;
-});
-</script>
-
 {% endblock %}

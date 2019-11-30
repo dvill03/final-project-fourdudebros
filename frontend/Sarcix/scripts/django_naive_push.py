@@ -28,11 +28,11 @@ def load(path, run_name):
          print(str(len(list_item)) + " ::: " + str(m))
     """
     conn = None
-    
+
     try:
         conn = psycopg2.connect(host="localhost",database="sarcix_test_db",user="postgres", password="2345")
         cur = conn.cursor()
-        execute_values(cur, """INSERT INTO %s(
+        execute_values(cur, """INSERT INTO naive(
                             run_name,
                             event_name,
                             b,
@@ -60,29 +60,29 @@ def load(path, run_name):
                             x,
                             y,
                             z,
-                            aa, 
-                            ab, 
-                            ac, 
-                            ad, 
-                            ae, 
-                            af, 
-                            ag, 
-                            ah, 
-                            ai, 
-                            aj, 
-                            ak, 
-                            al, 
-                            am, 
-                            an, 
-                            ao, 
-                            ap, 
-                            aq, 
-                            ar, 
+                            aa,
+                            ab,
+                            ac,
+                            ad,
+                            ae,
+                            af,
+                            ag,
+                            ah,
+                            ai,
+                            aj,
+                            ak,
+                            al,
+                            am,
+                            an,
+                            ao,
+                            ap,
+                            aq,
+                            ar,
                             ass,
                             att,
-                            au, 
-                            av 
-                       ) VALUES %%s ON CONFLICT DO NOTHING;""" % run_name, list_item)
+                            au,
+                            av
+                       ) VALUES %s ON CONFLICT DO NOTHING;""", list_item)
 
         conn.commit()
         cur.close()
