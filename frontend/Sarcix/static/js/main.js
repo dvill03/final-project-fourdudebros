@@ -3,7 +3,6 @@
   $('#original-modal-btn').click(openOriginalModal);
   $('#naive-modal-btn').click(fetchNaive);
   $("#analysis").click(showAnalysis);
-  $('#fupload').submit(fileUpload);
 
   // Fetch onload data
   getRun();
@@ -41,30 +40,7 @@ function getRun() {
   })
 }
 
-// Send file of our run to postgres
-function fileUpload () {
-  var file = new FormData(frm.get(0));
-  $.ajax({
-    type: 'POST',
-    url: "/push_run_script",
-    data: file,
-    processData: false,
-    contentType: false,
-    success: function (data) {
-      alert('Run was sent to your postgres db');
-    },
-    error: function(data) {
-      alert('Form submission failed');
-    }
-  });
-}
-
-
 // Show our modal for selected run
-/*Cases to be handled for title: if !empty and different (different run) -> empty content (NOT HANDLED)
-if empty (first time or previously removed) -> add content  (NOT HANDLED)
-else (same) -> display_modal  (HANDLED)
-*/
 function fetchNaive () {
   event.preventDefault();
   var send_data = {};
@@ -84,7 +60,6 @@ function fetchNaive () {
     error: function (data) {
       alert("Failed");
     }
-
   });
 }
 
@@ -100,9 +75,6 @@ function openNaiveModal(data, send_data) {
     var newTitle = "Table for run: " + runName.charAt(0).toUpperCase() + runName.slice(1).toLowerCase();
 
     if (currentTitle !== newTitle) {
-      // If we already added this data, don't add again, just display
-      // ***Makes assumption that the data that was asked for is the same as on previous attempt***
-
       // Add title
       $("h4.naive-modal-title").text(newTitle);
 
@@ -117,14 +89,15 @@ function openNaiveModal(data, send_data) {
     var newDataTable = $('#naive-table').DataTable({
       destroy: true,
       data: runs,
+      lengthChange: false,
       deferRender: true,
-      pageLength: 100
+      pageLength: 100,
     });
+
   }
 }
 
 function openOriginalModal(){
-  event.preventDefault();
   var send_data = {};
 
   if ($('#run').length > 0) {
@@ -154,6 +127,7 @@ function openOriginalModal(){
         var newDataTable = $('#original-table').DataTable({
           destroy: true,
           data: runs,
+          lengthChange: false,
           deferRender: true,
           pageLength: 1000
         });

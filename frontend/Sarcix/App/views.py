@@ -21,12 +21,10 @@ def run(request):
 @csrf_exempt
 def run_modal(request):
     run_data = []
-    run_name = request.GET.get('run_name', False)
-    print(run_name)
+    run_name = request.GET.get('run', False)
     if request.method == "GET" and request.is_ajax():
-        print("is ajax")
         if (request.GET.get('modal_type') == 'naive'):
-            run_data = list(Naive.objects.all().values()) #remove slice after fully completed
+            run_data = list(Naive.objects.filter(pk=run_name).values())
         else:
             run_data = list(Run.objects.all().values())
     else:
@@ -77,8 +75,7 @@ def dropdowns(request):
 # Heatmap
 def get_analysis(request):
     from scripts import django_heatmap_naive as hm
-    print(request.GET.get('curriculum'))
-    heatmap = hm.getRunHeatmap(request.GET.get('curriculum'))
+    heatmap = hm.getRunHeatmap(request.GET.get('run'))
     return JsonResponse(heatmap, safe=False)
 
 def heatmap(request):

@@ -60,14 +60,14 @@
 
 <h4>Run Complete
     <a href="#" class="btn btn-info btn" role="button">Reports</a>
-    <button id="analysis" class="btn btn-info btn" data-toggle="modal" data-target="imagemodal">Analysis</button>
+    <button id="analysis" class="btn btn-info btn" data-toggle="modal" data-target="imagemodal">Heatmap</button>
 </h4>
 
 <h4>Run Failed</h4>
 <p>Error 000N: Get some <a href="#" class="btn btn-info btn" role="button">Help</a></p>
 
 
-<!-- add new run to db -->
+<!-- Send run file -->
 <br> <label>Add new run</label>
 <form></form>   <!-- Add element to DOM for upcoming form element query -->
 <form method="post" class="needs-validation" enctype="multipart/form-data"  action="/push_run_script" id="fupload">
@@ -92,12 +92,12 @@
 </form>
 
 
-<!-- get run data -->
+<!-- modal buttons -->
   <button id="naive-modal-btn" type="button" class="btn btn-primary">Show naive modal</button>
   <button id="original-modal-btn" type="button" class="btn btn-primary">Show original modal</button>
 
 
-<!-- run modal -->
+<!-- original run modal -->
 <div class="modal fade main-modal" tabindex="-1" id="original-modal" >
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -107,28 +107,18 @@
             </div>
             <div style=" height: 750px; overflow-y: scroll;">
                 <table id="original-table" class="table table-bordered table-sm" style="table-layout: fixed; width: 100%">
-                    <thead class="original-thead">
-                        <tr>
-                            <th>Event Name</th>
-                            <th>Coverage Name</th>
-                            <th>Coverage Score</th>
-                        </tr>
-                    </thead>
-                    <tbody class="original-tbody">
-                        {% for entry in run1 %}
-                            <tr >
-                                <td style="word-wrap: break-word">{{entry.event_name}}</td>
-                                <td>{{entry.coverage_name}}</td>
-                                <td>{{entry.score}}</td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
+                  <thead>
+                      <tr>
+                          <th>Event Name</th>
+                          <th>Coverage Name</th>
+                          <th>Coverage Score</th>
+                      </tr>
+                   </thead>
                 </table>
             </div>
         </div>
     </div>
 </div>
-
 
 
 <!-- naive run modal -->
@@ -154,20 +144,45 @@
     </div>
 </div>
 
+
+<!-- heatmap modal -->
 <div class="modal fade"  tabindex="-1" id="imagemodal">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal"</button>
-        <h4 class="modal-title" id="imagelabel"></h4>
-      </div>
-      <div class="modal-body">
-        <img src="" id="imagepreview" style="width: 870px; height: 600px;" >
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-      </div>
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>                <h4 class="modal-title" id="imagelabel"></h4>
+            </div>
+            <div class="modal-body">
+                <img src="" id="imagepreview" style="width: 870px; height: 600px;" >
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
+
+
+<script type="text/javascript">
+// Send file of our run to postgres
+var frm = $('#fupload');
+frm.submit(function () {
+    var data = new FormData(frm.get(0));
+    $.ajax({
+        type: frm.attr('method'),
+        url: frm.attr('action'),
+        data: data,
+        processData: false,
+        contentType: false,
+        success: function (data) {
+            alert('Run was sent to your postgres db');
+        },
+        error: function(data) {
+            alert('Form submission failed');
+        }
+    });
+    return false;
+});
+</script>
+<script src="{% static '/js/main.js' %}"></script>
 {% endblock %}
