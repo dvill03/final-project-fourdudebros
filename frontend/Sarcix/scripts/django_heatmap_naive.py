@@ -32,10 +32,9 @@ def getRunHeatmap(run_name):
             c_lst.append(tuple(d_lst))
             d_lst.clear()
 
-        #heat_map = sb.heatmap(c_lst, annot=True, linewidths=.5)
-        fig, axis = plt.subplots()
-        heatmap = axis.pcolor(c_lst) # heatmap contient les valeurs
-        plt.colorbar(heatmap)
+        heat_map = sb.heatmap(c_lst)
+        #fig, axis = plt.subplots()
+        #heat_map = axis.pcolor(c_lst)
 
         #plt.show()
 

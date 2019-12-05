@@ -7,6 +7,7 @@ from django.views.decorators.csrf import csrf_protect, csrf_exempt
 from .models import Run, Naive
 from pathlib import Path
 from filebrowser.base import FileObject
+from psycopg2.extras import RealDictCursor
 import psycopg2, json, sys, os
 
 # home
@@ -59,11 +60,10 @@ def help(request):
 
 def get_runs(request):
     con = psycopg2.connect(database='sarcix_test_db', user='postgres', password='2345', host='localhost', port='5432')
-    cur = con.cursor()
-    query_sql = "SELECT row_to_json(row) FROM (SELECT event_name, coverage_name, score FROM run1) row LIMIT 2;"
+    cur = con.cursor(cursor_factory=RealDictCursor)
+    query_sql = "SELECT event_name, coverage_name, score FROM run1" #44650 total
     cur.execute(query_sql)
     results = cur.fetchall()
-    print(results)
     return JsonResponse(results, safe=False)
 
 # Dropdowns

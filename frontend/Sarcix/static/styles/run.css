@@ -1,3 +1,4 @@
+/* Naive table */
 .naive-data-table {
   width: 100%;
   overflow: auto;
@@ -31,6 +32,41 @@
   border: 1px solid black;
 }
 
+/* Original table */
 #original-table td {
   word-break: break-word;
+}
+
+/*  Lazy table */
+.lazy-data-table {
+  width: 100%;
+  overflow: auto;
+  margin-bottom: 20px
+}
+
+.lazy-data-table table {
+  width: 100%;
+}
+
+.lazy-data-table table,
+.lazy-data-table th,
+.lazy-data-table td {
+  background-color: black;
+  color: white;
+  border: 1px solid black;
+  width: 100px;
+  min-width: 100px;
+  max-width: 300px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.lazy-data-table tbody {
+  margin-top: 20px;
+}
+.lazy-data-table td {
+  background-color: white;
+  width: 100px;
+  color: black;
+  border: 1px solid black;
 }

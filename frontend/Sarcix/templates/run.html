@@ -59,8 +59,8 @@
 <h4>Run Status</h4>
 
 <h4>Run Complete
-    <a href="#" class="btn btn-info btn" role="button">Reports</a>
-    <button id="analysis" class="btn btn-info btn" data-toggle="modal" data-target="imagemodal">Heatmap</button>
+    <a href="/heatmap" class="btn btn-info btn" role="button">Heatmap</a>
+    <button id="analysis" class="btn btn-info btn" data-toggle="modal" data-target="imagemodal">Heatmap2</button>
 </h4>
 
 <h4>Run Failed</h4>
@@ -95,6 +95,7 @@
 <!-- modal buttons -->
   <button id="naive-modal-btn" type="button" class="btn btn-primary">Show naive modal</button>
   <button id="original-modal-btn" type="button" class="btn btn-primary">Show original modal</button>
+  <button id="lazy-modal-btn" type="button" class="btn btn-primary">Show lazy modal</button>
 
 
 <!-- original run modal -->
@@ -105,7 +106,7 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="original-modal-title"></h4>
             </div>
-            <div style=" height: 750px; overflow-y: scroll;">
+            <div style=" height: 775px; overflow-y: scroll;">
                 <table id="original-table" class="table table-bordered table-sm" style="table-layout: fixed; width: 100%">
                   <thead>
                       <tr>
@@ -144,6 +145,27 @@
     </div>
 </div>
 
+<!-- naive run modal -->
+<div class="modal fade main-modal" tabindex="-1" id="lazy-modal" >
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="lazy-modal-title"></h4>
+            </div>
+              <div class="lazy-data-table">
+                  <div class="lazy-data-table-inner">
+                      <table>
+                          <thead class="lazy-thead">
+                          </thead>
+                          <tbody class="lazy-tbody">
+                          </tbody>
+                      </table>
+                  </div>
+              </div>
+        </div>
+    </div>
+</div>
 
 <!-- heatmap modal -->
 <div class="modal fade"  tabindex="-1" id="imagemodal">
@@ -153,7 +175,7 @@
          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>                <h4 class="modal-title" id="imagelabel"></h4>
             </div>
             <div class="modal-body">
-                <img src="" id="imagepreview" style="width: 870px; height: 600px;" >
+                <img src="" id="imagepreview" style="width: 883px; height: 700px;" >
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -164,7 +186,7 @@
 
 
 <script type="text/javascript">
-// Send file of our run to postgres
+// Send file of our run to postgres (can't get it working on main.js)
 var frm = $('#fupload');
 frm.submit(function () {
     var data = new FormData(frm.get(0));
